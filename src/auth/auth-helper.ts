@@ -1,6 +1,7 @@
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import UserCredential = firebase.auth.UserCredential;
+import {User} from "firebase";
 
 export class AuthHelper {
     //Configuration details
@@ -44,6 +45,16 @@ export class AuthHelper {
         return authenticationResult !== null ? authenticationResult : null;
     }
 
+    /**
+     * Delete the user
+     *
+     * @param user object acquired with firebase.auth().currentUser
+     */
+    static async deleteUser(user: User) {
+        user !== null ?
+            await user.delete() :
+            console.log('Error deleting an user. Is user signed in or has it been created in the first place?');
+    }
 
     /**
      * Validate email form and return either true if form passes the test or false if it doesn't

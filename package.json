@@ -4,6 +4,7 @@
   "description": "TodoByMe is a cross-platform application for users to make and edit notes from all platforms. This is the web app version.",
   "main": "./lib/index.js",
   "scripts": {
+    "start": "rm -rf lib node_modules ; npm install ; npm update ; tsc -p tsconfig.json ; node ./lib/index.js",
     "test": "rm -rf lib ; tsc -p tsconfig.json ; jest"
   },
   "keywords": [

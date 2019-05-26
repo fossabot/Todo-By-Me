@@ -32,6 +32,20 @@ export class AuthHelper {
     }
 
     /**
+     * Sign the user in with email and password.
+     *
+     * @param email string
+     * @param password string
+     * @return either Promise<UserCredential> or Promise<null> depending on whether signing in process was successful
+     *          or not.
+     */
+    static async signUserWithEmailAndPassword(email: string, password: string): Promise<UserCredential | null> {
+        const authenticationResult: UserCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
+        return authenticationResult !== null ? authenticationResult : null;
+    }
+
+
+    /**
      * Validate email form and return either true if form passes the test or false if it doesn't
      *
      * @param email string

@@ -4,5 +4,5 @@ export interface Todo {
     id: string;
     title: string;
     contents: string;
-    tags?: Tag[]
+    tags?: string[]
 }

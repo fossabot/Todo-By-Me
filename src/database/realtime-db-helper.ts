@@ -1,6 +1,11 @@
 import * as firebase from "firebase/app";
 import 'firebase/auth';
 import 'firebase/database';
+import {Todo} from "../models/todo";
+import {Tag} from "../models/tag";
+import {User} from "firebase";
+import Database = firebase.database.Database;
+import Reference = firebase.database.Reference;
 
 export class RealtimeDbHelper {
     //Configuration details
@@ -14,6 +19,38 @@ export class RealtimeDbHelper {
         appId: "1:531453185631:web:697c858552cf770d"
     };
 
-    //Initialize the Firebase SDK when instantiating the class
-    constructor() {firebase.initializeApp(this.firebaseConfig)}
+    //This user object represents signed in user
+    public user: User;
+
+    //Get Firebase database
+    private firebaseDatabase: Database = firebase.database();
+
+    //Initialize the Firebase SDK + get user data when instantiating the class
+    constructor() {
+        firebase.initializeApp(this.firebaseConfig);
+        this.user = firebase.auth().currentUser as User;
+    }
+
+    /**
+     * Create new td object. This method assumes that td includes valid data, mostly with respect to tag IDs.
+     *
+     * @param td object, check {@link Todo}
+     */
+    public async createTodo(td: Todo) {
+        const databaseReference: Reference = this.firebaseDatabase.ref(`${this.user.uid}/todos`);
+        const todoId = databaseReference.push().key as string;
+        await databaseReference.child(todoId).set(td);
+    }
+
+
+    /**
+     * Create tag under uid/tags reference
+     *
+     * @param tag object, see {@link Tag}
+     */
+    public async createTag(tag: Tag) {
+        const databaseReference: Reference = this.firebaseDatabase.ref(`${this.user.uid}/tags`);
+        const tagId = databaseReference.push().key as string;
+        await databaseReference.child(tagId).set(tag);
+    }
 }

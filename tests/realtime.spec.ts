@@ -1,11 +1,12 @@
 import * as firebase from "firebase/app";
+import 'firebase/auth';
 import 'firebase/database';
 import {User} from "firebase";
 import Database = firebase.database.Database;
 import {Todo} from "../src/models/todo";
 import Reference = firebase.database.Reference;
 
-describe('testing realtime database', async () => {
+describe('testing realtime database', () => {
     const email: string = 'test@gmail.com';
     const password: string = 'test-password';
     const firebaseConfig = {
@@ -18,18 +19,18 @@ describe('testing realtime database', async () => {
         appId: "1:531453185631:web:697c858552cf770d"
     };
     firebase.initializeApp(firebaseConfig);
-    await firebase.auth().signInWithEmailAndPassword(email, password);
-    const user: User | null = firebase.auth().currentUser;
-    const database: Database = firebase.database();
     it('should write a simple todo', async () => {
+        await firebase.auth().signInWithEmailAndPassword(email, password);
+        const user: User | null = firebase.auth().currentUser;
+        const database: Database = firebase.database();
         if (user !== null) {
             const databaseReference: Reference = database.ref(`${user.uid}/todos`);
             const todo: Todo = {
-                id: databaseReference.push().toString(),
+                id: databaseReference.push().key,
                 title: 'Sample TODO',
                 contents: 'Just checking if it works or not'
             };
-            expect(await databaseReference.set(todo)).toBeTruthy();
-        }
+            expect(await databaseReference.set(todo)).toBeCalled();
+        } else expect(user).toBeFalsy();
     });
 });

@@ -4,6 +4,7 @@
   "description": "TodoByMe is a cross-platform application for users to make and edit notes from all platforms. This is the web app version.",
   "main": "./lib/index.js",
   "scripts": {
+    "start": "rm -rf lib node_modules ; npm install ; npm update ; tsc -p tsconfig.json ; node ./lib/index.js",
     "test": "rm -rf lib ; tsc -p tsconfig.json ; jest"
   },
   "keywords": [
@@ -22,6 +23,7 @@
     "@types/jest": "^24.0.13",
     "@types/node": "^12.0.2",
     "jest": "^24.8.0",
+    "ts-jest": "^24.0.2",
     "typescript": "^3.4.5"
   },
   "jest": {
@@ -34,5 +36,8 @@
       "\\.(ts|tsx)$": "ts-jest"
     },
     "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.ts?$"
+  },
+  "dependencies": {
+    "firebase": "^6.0.4"
   }
 }

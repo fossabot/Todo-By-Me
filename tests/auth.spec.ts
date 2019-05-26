@@ -1,6 +1,7 @@
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import UserCredential = firebase.auth.UserCredential;
+import {User} from "firebase";
 
 describe('testing firebase authentication', () => {
     const email: string = 'test@gmail.com';
@@ -17,7 +18,22 @@ describe('testing firebase authentication', () => {
     firebase.initializeApp(firebaseConfig);
     it('should create a new user', async () => {
         const newUser: UserCredential = await firebase.auth().createUserWithEmailAndPassword(email, password);
-        console.log(`New user: ${newUser}`);
+        console.log(`New user: ${newUser.user} with credentials ${newUser.credential}`);
         expect(newUser).toBeTruthy();
+    });
+    it('should sign in the existing user', async () => {
+        const existingUser: UserCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
+        console.log(`Sign in existing user ${existingUser.user} with credentials ${existingUser.credential}`);
+        expect(existingUser).toBeTruthy();
+    });
+    it('should run the observer when authentication state changes', async () => {
+        const user: User | null = firebase.auth().currentUser;
+        expect(user).toBeTruthy();
+        console.log(`Current user ${user}`);
+
+        if (user) firebase.auth().onAuthStateChanged((firebaseUser: any) => {
+            console.log(firebaseUser);
+            expect(firebaseUser).toBeDefined();
+        });
     });
 });

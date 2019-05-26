@@ -1,6 +1,6 @@
 # Todo By Me
 
-Desktop implementation of cross-platform *Todo By Me* application. Written in TypeScript running on Node.js, implements Firebase SDK for managing authentication, database and data storage.
+Node.js implementation of cross-platform *Todo By Me* application written in TypeScript, implementing Firebase SDK for managing authentication, database and data storage.
 
 Because this project ignores compiled TypeScript, you need to perform compilation yourself. I have put together a concise
 `tsconfig.json` file as well as building rules in `package.json`, simplifying compilation to

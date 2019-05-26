@@ -2,6 +2,8 @@ import * as firebase from "firebase/app";
 import 'firebase/database';
 import {User} from "firebase";
 import Database = firebase.database.Database;
+import {Todo} from "../src/models/todo";
+import Reference = firebase.database.Reference;
 
 describe('testing realtime database', async () => {
     const email: string = 'test@gmail.com';
@@ -19,7 +21,15 @@ describe('testing realtime database', async () => {
     await firebase.auth().signInWithEmailAndPassword(email, password);
     const user: User | null = firebase.auth().currentUser;
     const database: Database = firebase.database();
-    it('should ', function () {
-
+    it('should write a simple todo', async () => {
+        if (user !== null) {
+            const databaseReference: Reference = database.ref(`${user.uid}/todos`);
+            const todo: Todo = {
+                id: databaseReference.push().toString(),
+                title: 'Sample TODO',
+                contents: 'Just checking if it works or not'
+            };
+            expect(await databaseReference.set(todo)).toBeTruthy();
+        }
     });
 });

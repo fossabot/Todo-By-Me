@@ -36,8 +36,4 @@ describe('testing firebase authentication', () => {
             expect(firebaseUser).toBeDefined();
         });
     });
-    it('should delete the user', async () => {
-        const user = firebase.auth().currentUser;
-        user !== null ? expect(user.delete()).toBeDefined() : expect(user).toBeFalsy();
-    });
 });

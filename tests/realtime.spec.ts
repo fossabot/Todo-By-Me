@@ -25,12 +25,13 @@ describe('testing realtime database', () => {
         const database: Database = firebase.database();
         if (user !== null) {
             const databaseReference: Reference = database.ref(`${user.uid}/todos`);
+            const todoId = databaseReference.push().key as string;
             const todo: Todo = {
-                id: databaseReference.push().key,
+                id: todoId,
                 title: 'Sample TODO',
                 contents: 'Just checking if it works or not'
             };
-            expect(await databaseReference.set(todo)).toBeCalled();
+            expect(await databaseReference.child(todoId).set(todo)).toBeFalsy();
         } else expect(user).toBeFalsy();
     });
 });

@@ -1,6 +1,8 @@
+import {Tag} from "./tag";
+
 export interface Todo {
-    id: string | null;
+    id: string;
     title: string;
     contents: string;
-    tags?: string[]
+    tags?: Tag[]
 }

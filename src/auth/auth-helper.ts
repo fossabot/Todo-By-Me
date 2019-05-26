@@ -16,9 +16,7 @@ export class AuthHelper {
     };
 
     //Initialize the Firebase SDK when instantiating the class
-    constructor() {
-        firebase.initializeApp(this.firebaseConfig);
-    }
+    constructor() {firebase.initializeApp(this.firebaseConfig)}
 
     /**
      * Create user with email and password. This async method will also validate the email format and password length.

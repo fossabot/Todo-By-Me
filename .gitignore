@@ -1,0 +1,21 @@
+# Dependency directory
+node_modules
+
+# IDEs
+.idea
+.vscode
+
+# MacOS metadata
+.DS_Store
+Thumbs.db
+
+# Ignore built TypeScript files
+lib
+
+# Private files
+secrets
+
+# Firebase files
+.firebaserc
+database.rules.json
+firebase.json

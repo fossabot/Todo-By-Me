@@ -34,5 +34,8 @@
       "\\.(ts|tsx)$": "ts-jest"
     },
     "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.ts?$"
+  },
+  "dependencies": {
+    "firebase": "^6.0.4"
   }
 }

@@ -6,6 +6,7 @@ import {Tag} from "../models/tag";
 import {User} from "firebase";
 import Database = firebase.database.Database;
 import Reference = firebase.database.Reference;
+import DataSnapshot = firebase.database.DataSnapshot;
 
 export class RealtimeDbHelper {
     //Configuration details
@@ -42,6 +43,15 @@ export class RealtimeDbHelper {
         await databaseReference.child(todoId).set(td);
     }
 
+    /**
+     * This method will fetch a single td by ID
+     * @param id
+     */
+    public async fetchTodo(id: string): Promise<Todo> {
+        const databaseReference: Reference = this.firebaseDatabase.ref(`${this.user.uid}/todos/${id}`);
+        const snapshot: DataSnapshot = await databaseReference.once('value');
+        return snapshot.val();
+    }
 
     /**
      * Create tag under uid/tags reference

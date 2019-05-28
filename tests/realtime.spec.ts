@@ -34,4 +34,15 @@ describe('testing realtime database', () => {
             expect(await databaseReference.child(todoId).set(todo)).toBeFalsy();
         } else expect(user).toBeFalsy();
     });
+    it('should fetch all todos', async () => {
+        const user: User | null = firebase.auth().currentUser;
+        const database: Database = firebase.database();
+        if (user !== null) {
+            const databaseReference: Reference = database.ref(`${user.uid}/todos`);
+            await databaseReference.orderByKey().on('child_added', (snap) => {
+                expect(snap).toBeDefined();
+                console.log(snap);
+            });
+        }
+    });
 });

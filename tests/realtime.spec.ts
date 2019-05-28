@@ -47,4 +47,24 @@ describe('testing realtime database', () => {
             });
         }
     });
+    it('should modify a todo', async () => {
+        const user: User | null = firebase.auth().currentUser;
+        const database: Database = firebase.database();
+        if (user !== null) {
+            const databaseReference: Reference = database.ref(`${user.uid}/todos`);
+            const todoId = databaseReference.push().key as string;
+            const todo: Todo = {
+                id: todoId,
+                title: 'Sample TODO, but this one will be modified',
+                contents: 'Just checking if it works or not'
+            };
+            const todoNew: Todo = {
+                id: todoId,
+                title: 'Sample TODO, but this one will be modified',
+                contents: 'So we should go from a generic entry to the updated one ;)'
+            };
+            await databaseReference.child(todoId).set(todo);
+            expect(await databaseReference.child(todoId).update(todoNew)).toBeCalled();
+        }
+    });
 });

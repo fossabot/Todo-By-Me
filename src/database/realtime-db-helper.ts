@@ -75,6 +75,16 @@ export class RealtimeDbHelper {
     }
 
     /**
+     * Update td entry by providing an ID and the new updated value
+     * @param id
+     * @param td
+     */
+    public async updateTodo(id: string, td: Todo) {
+        const databaseReference: Reference = this.firebaseDatabase.ref(`${this.user.uid}/todos/${id}`);
+        await databaseReference.update(td);
+    }
+
+    /**
      * Create tag under uid/tags reference
      *
      * @param tag object, see {@link Tag}

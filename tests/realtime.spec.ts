@@ -41,7 +41,9 @@ describe('testing realtime database', () => {
             const databaseReference: Reference = database.ref(`${user.uid}/todos`);
             await databaseReference.orderByKey().on('child_added', (snap) => {
                 expect(snap).toBeDefined();
-                console.log(snap);
+                snap.forEach((result: any) => {
+                    expect(result.val()).toBeDefined();
+                })
             });
         }
     });

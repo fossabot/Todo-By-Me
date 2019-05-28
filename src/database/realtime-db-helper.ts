@@ -54,6 +54,27 @@ export class RealtimeDbHelper {
     }
 
     /**
+     * Fetch all td's and place them in a list. Currently, the data structure for storing td's is an interface, but that
+     * ought to be changed in the future because it is not optimal.
+     *
+     * @return either list of td's or undefined if error occurred
+     */
+    public async fetchAllTodos(): Promise<Array<Todo> | undefined> {
+        let todoList: Array<Todo> = [];
+        const databaseReference: Reference = this.firebaseDatabase.ref(`${this.user.uid}/todos`);
+        await databaseReference.orderByKey().on('child_added', (snap: any) => {
+            let tempTodo: Todo = {
+                id: snap.val().id,
+                title: snap.val().title,
+                contents: snap.val().contents,
+                tags: snap.val().tags
+            };
+            todoList.push(tempTodo);
+        });
+        return todoList.length > 0 ? todoList : undefined;
+    }
+
+    /**
      * Create tag under uid/tags reference
      *
      * @param tag object, see {@link Tag}

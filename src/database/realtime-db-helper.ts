@@ -85,6 +85,15 @@ export class RealtimeDbHelper {
     }
 
     /**
+     * Delete a td from an id
+     * @param id
+     */
+    public async deleteTodo(id: string) {
+        const databaseReference: Reference = this.firebaseDatabase.ref(`${this.user.uid}/todos/${id}`);
+        await databaseReference.remove()
+    }
+
+    /**
      * Create tag under uid/tags reference
      *
      * @param tag object, see {@link Tag}
